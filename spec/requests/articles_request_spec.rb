@@ -11,9 +11,14 @@ RSpec.describe ArticlesController, type: :controller do
       create_list :article, 5
       get :index
       json = JSON.parse(response.body)
-      pp json
-      # json_data = json[:data]
+      # pp json
+      json_data = json['data']
       # expect(json_data.length).to eq(2)
+      expect(json_data[0]['attributes']).to eq({
+        'title' => 'My awesome article 1',
+        'content' => 'The content of my awesome article 1',
+        'slug' => 'my-awesome-article-1'
+      })
     end
 
   end
