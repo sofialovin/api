@@ -1,24 +1,24 @@
 require 'rails_helper'
-
+require 'factory_bot'
 RSpec.describe ArticlesController, type: :controller do
   describe '#index' do
+    subject { get :index }
     it 'should return success response' do
-      get :index
+      subject
       expect(response).to have_http_status(:success)
     end
 
     it 'should return proper json' do
-      create_list :article, 5
-      get :index
-      json = JSON.parse(response.body)
-      # pp json
-      json_data = json['data']
-      # expect(json_data.length).to eq(2)
-      expect(json_data[0]['attributes']).to eq({
-        'title' => 'My awesome article 1',
-        'content' => 'The content of my awesome article 1',
-        'slug' => 'my-awesome-article-1'
-      })
+      articles = create_list :article, 2
+      subject
+
+      articles.each_with_index do |article, index|
+        expect(json_data[index]['attributes']).to eq({
+          'title' => article.title,
+          'content' => article.content,
+          'slug' => article.slug
+        })
+      end
     end
 
   end

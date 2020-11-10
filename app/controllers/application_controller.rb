@@ -2,7 +2,6 @@ class ApplicationController < ActionController::API
   include ActionController::Serialization
   def render(options={})
     options[:json] = serializer.new(options[:json])
-    super(options)
+    # super(options)
   end
-
 end
